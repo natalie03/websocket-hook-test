@@ -1,3 +1,3 @@
-import createReducer from './createReducer';
+import sockets from './sockets';
 
-export { createReducer };
+export { sockets };

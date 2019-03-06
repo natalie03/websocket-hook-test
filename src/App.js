@@ -1,16 +1,37 @@
-import configureStore from './store';
-import { Provider } from 'react-redux';
-import React from 'react';
-import { ApplicationLayout } from '_containers';
+import React, { useEffect, useState } from 'react';
+import { PageContent } from '_components';
+import { mockData}  from '_data';
+import { receiveMessage } from '_utils/sockets.js';
+import './index.scss';
 
-import './index.css';
+function App() {
+  const [pageIndex, setPageIndex] = useState(0);
+  const [message, setMessage] = useState({});
 
-const App = () => (
-  <Provider store={configureStore()}>
+  useEffect(() => {
+    let timer = setTimeout(() => setMessage({}), 2000)
+    return () => { clearTimeout(timer) }
+  },[message]);
+
+  receiveMessage(setMessage);
+
+  const pages = mockData.data.pages;
+  return (
     <div className="App">
-      <ApplicationLayout />
+      {
+        message &&
+        <div className="alert">{message.message}</div>
+      }
+      <PageContent {...pages[pageIndex]} />
+      {pageIndex < pages.length &&
+        <button
+          onClick={() => setPageIndex(pageIndex + 1)}
+        >
+          {pages[pageIndex].button_text}
+        </button>
+      }
     </div>
-  </Provider>
-);
+  )
+}
 
 export default App;

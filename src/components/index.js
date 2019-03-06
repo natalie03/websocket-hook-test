@@ -1,3 +1,4 @@
-import NameForm from './NameForm';
+import Form from './Form';
+import PageContent from './PageContent';
 
-export { NameForm };
+export { Form, PageContent };
