@@ -7,9 +7,12 @@ import './index.scss';
 function App() {
   const [pageIndex, setPageIndex] = useState(0);
   const [message, setMessage] = useState({});
+  let timer;
 
   useEffect(() => {
-    let timer = setTimeout(() => setMessage({}), 2000)
+    if (message.message) {
+      timer = setTimeout(() => setMessage({}), 2000)
+    }
     return () => { clearTimeout(timer) }
   },[message]);
 

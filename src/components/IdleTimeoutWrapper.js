@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 
-function IdleTimeoutWrapper({children, messageOnActivate, messageOnTimeout, sendMessage, timeBeforeReset}) {
+function IdleTimeoutWrapper({
+  children, 
+  messageOnActivate, 
+  messageOnTimeout, 
+  sendMessage, 
+  timeBeforeReset
+}) {
   const [isTimeout, setIsTimeout] = useState(false);
   let _timestamp = new Date();
   let interval;
 
   const events = ['click', 'keypress', 'ontouchstart'];
   events.map((event) => {
-    console.log("Why do I keep getting called?");
     return window.addEventListener(event, resetTimeout);
   });
 
@@ -30,8 +35,7 @@ function IdleTimeoutWrapper({children, messageOnActivate, messageOnTimeout, send
     setIsTimeout(true);
   }
 
-  function resetTimeout(e) {
-    console.log(e);
+  function resetTimeout() {
     if (sendMessage && isTimeout) {
       sendMessage(messageOnActivate);
     }
