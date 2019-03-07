@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PageContent } from '_components';
+import { IdleTimeoutWrapper, PageContent } from '_components';
 import { mockData}  from '_data';
 import { receiveMessage } from '_utils/sockets.js';
 import './index.scss';
@@ -7,17 +7,24 @@ import './index.scss';
 function App() {
   const [pageIndex, setPageIndex] = useState(0);
   const [message, setMessage] = useState({});
+  let timer;
 
   useEffect(() => {
-    let timer = setTimeout(() => setMessage({}), 2000)
+    if (message.message) {
+      timer = setTimeout(() => setMessage({}), 2000)
+    }
     return () => { clearTimeout(timer) }
   },[message]);
+
+  function handleTimeout(message) {
+    console.log(message);
+  }
 
   receiveMessage(setMessage);
 
   const pages = mockData.data.pages;
   return (
-    <div className="App">
+    <IdleTimeoutWrapper sendMessage={handleTimeout} timeBeforeReset={5} messageOnTimeout="Timing out" messageOnActivate="Coming Back!">
       {
         message &&
         <div className="alert">{message.message}</div>
@@ -30,7 +37,7 @@ function App() {
           {pages[pageIndex].button_text}
         </button>
       }
-    </div>
+    </IdleTimeoutWrapper>
   )
 }
 

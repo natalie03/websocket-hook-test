@@ -1,4 +1,4 @@
-import Form from './Form';
+import IdleTimeoutWrapper from './IdleTimeoutWrapper';
 import PageContent from './PageContent';
 
-export { Form, PageContent };
+export { IdleTimeoutWrapper, PageContent };
